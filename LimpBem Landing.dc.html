@@ -61,8 +61,8 @@
     }
 
     /* ===== Animations ===== */
-    @keyframes lb-fade-up { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
-    @keyframes lb-float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-11px); } }
+    @keyframes lb-fade-up { from { opacity: 0; transform: translateY(38px) scale(.97); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+    @keyframes lb-float { 0%, 100% { transform: translate3d(var(--px, 0px), var(--py, 0px), 0); } 50% { transform: translate3d(var(--px, 0px), calc(var(--py, 0px) - 12px), 0); } }
     @keyframes lb-wa-pulse {
       0% { box-shadow: 0 10px 26px rgba(7,48,28,.35), 0 0 0 0 rgba(37,211,102,.5); }
       70% { box-shadow: 0 10px 26px rgba(7,48,28,.35), 0 0 0 16px rgba(37,211,102,0); }
@@ -74,25 +74,40 @@
     .hero-wrap > div:first-child > *:nth-child(2) { animation-delay: .16s; }
     .hero-wrap > div:first-child > *:nth-child(3) { animation-delay: .28s; }
     .hero-wrap > div:first-child > *:nth-child(4) { animation-delay: .4s; }
-    .hero-wrap > div:last-child { animation: lb-fade-up .8s cubic-bezier(.22,1,.36,1) .3s both; }
+    @keyframes lb-hero-col { from { opacity: 0; transform: translate3d(var(--px, 0px), calc(var(--py, 0px) + 44px), 0) scale(.93); filter: blur(12px); } to { opacity: 1; transform: translate3d(var(--px, 0px), var(--py, 0px), 0) scale(1); filter: none; } }
+    .hero-wrap > div:last-child { animation: lb-hero-col .95s cubic-bezier(.22,1,.36,1) .35s both; }
+    /* hero decorative circles follow the mouse (JS sets --px/--py) */
+    #inicio > div:nth-child(-n+3), .hero-mascote { will-change: transform; }
+    /* hero title: word-by-word reveal (JS splits into .w spans) */
+    .hero-wrap > div:first-child > h1 { animation-name: lb-fade-simple; }
+    @keyframes lb-fade-simple { from { opacity: 0; } to { opacity: 1; } }
+    @keyframes lb-word { from { opacity: 0; transform: translateY(.65em) rotate(5deg) scale(.9); filter: blur(8px); } to { opacity: 1; transform: none; filter: none; } }
+    #inicio h1 .w { display: inline-block; animation: lb-word .75s cubic-bezier(.22,1,.36,1) both; animation-delay: calc(.15s + var(--i) * .085s); }
+    /* hero badge shimmer loop */
+    @keyframes lb-shimmer { 0% { left: -60%; } 55%, 100% { left: 140%; } }
+    .hero-wrap > div:first-child > span:first-child { position: relative; overflow: hidden; }
+    .hero-wrap > div:first-child > span:first-child::after { content: ''; position: absolute; top: 0; left: -60%; width: 40%; height: 100%; background: linear-gradient(105deg, transparent, rgba(255,255,255,.28), transparent); transform: skewX(-20deg); animation: lb-shimmer 3.4s ease-in-out 1.6s infinite; }
+    /* animated glow overlays */
+    @keyframes lb-glow { from { transform: translate3d(-2%, -2%, 0) rotate(0deg); opacity: .7; } to { transform: translate3d(3%, 4%, 0) rotate(5deg); opacity: 1; } }
+    #inicio::before, #contato::before { content: ''; position: absolute; inset: -15%; pointer-events: none; background: radial-gradient(620px 420px at 72% 18%, rgba(37,211,102,.16), transparent 62%), radial-gradient(520px 400px at 16% 85%, rgba(203,233,245,.1), transparent 60%); animation: lb-glow 11s ease-in-out infinite alternate; }
     /* mascot gentle float */
     img[alt="Mascote LimpBem"] { animation: lb-float 5.5s ease-in-out 1.2s infinite; }
     /* floating WhatsApp pulse */
     .float-wa { animation: lb-wa-pulse 2.6s ease-out 2s infinite; }
     /* scroll reveal (activated by JS; content stays visible without JS) */
-    html.js-anim .reveal { opacity: 0; transform: translateY(28px); transition: opacity .7s cubic-bezier(.22,1,.36,1), transform .7s cubic-bezier(.22,1,.36,1); }
-    html.js-anim .reveal.in-view { opacity: 1; transform: none; }
+    html.js-anim .reveal { opacity: 0; transform: translateY(44px) scale(.96); filter: blur(9px); transition: opacity .85s cubic-bezier(.22,1,.36,1), transform .85s cubic-bezier(.22,1,.36,1), filter .85s cubic-bezier(.22,1,.36,1); }
+    html.js-anim .reveal.in-view { opacity: 1; transform: none; filter: none; }
     html.js-anim .reveal.in-view:nth-child(2) { transition-delay: .08s; }
     html.js-anim .reveal.in-view:nth-child(3) { transition-delay: .16s; }
     html.js-anim .reveal.in-view:nth-child(4) { transition-delay: .24s; }
     html.js-anim .reveal.in-view:nth-child(5) { transition-delay: .32s; }
     /* card hover lift */
-    .card-lift.in-view, #porque li.reveal.in-view { transition: transform .35s ease, box-shadow .35s ease, opacity .7s cubic-bezier(.22,1,.36,1); }
+    .card-lift.in-view, #porque li.reveal.in-view { transition: transform .35s ease, box-shadow .35s ease, opacity .85s cubic-bezier(.22,1,.36,1), filter .85s cubic-bezier(.22,1,.36,1); }
     .card-lift.in-view:hover { transform: translateY(-6px); box-shadow: 0 16px 34px rgba(16,37,26,.12); }
     #porque li.reveal.in-view:hover { transform: translateX(6px); }
     /* directional reveals */
-    html.js-anim .reveal.reveal-left { transform: translateX(-44px); }
-    html.js-anim .reveal.reveal-right { transform: translateX(44px); }
+    html.js-anim .reveal.reveal-left { transform: translateX(-72px) scale(.96); }
+    html.js-anim .reveal.reveal-right { transform: translateX(72px) scale(.96); }
     html.js-anim .reveal.in-view.reveal-left, html.js-anim .reveal.in-view.reveal-right { transform: none; }
     /* decorative circles drift */
     #inicio > div:nth-child(1) { animation: lb-float 9s ease-in-out infinite; }
@@ -380,6 +395,9 @@ class Component extends DCLogic {
       }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' })
     : null;
 
+  var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var finePointer = window.matchMedia('(pointer: fine)').matches;
+
   function watchReveals() {
     var els = document.querySelectorAll('.reveal:not([data-rv])');
     els.forEach(function (el) {
@@ -388,18 +406,115 @@ class Component extends DCLogic {
       else el.classList.add('in-view');
     });
   }
-  new MutationObserver(watchReveals).observe(document.body, { childList: true, subtree: true });
-  watchReveals();
+
+  /* ===== Hero title: split into words for staggered reveal ===== */
+  function splitTitle() {
+    var h1 = document.querySelector('#inicio h1');
+    if (!h1 || h1.hasAttribute('data-split')) return;
+    h1.setAttribute('data-split', '1');
+    var words = h1.textContent.trim().split(/\s+/);
+    h1.textContent = '';
+    words.forEach(function (word, i) {
+      var span = document.createElement('span');
+      span.className = 'w';
+      span.style.setProperty('--i', i);
+      span.textContent = word;
+      h1.appendChild(span);
+      if (i < words.length - 1) h1.appendChild(document.createTextNode(' '));
+    });
+  }
+
+  /* ===== Hero mouse parallax ===== */
+  var heroBound = false;
+  function initHeroParallax() {
+    if (heroBound || reduceMotion || !finePointer) return;
+    var hero = document.querySelector('#inicio');
+    if (!hero) return;
+    heroBound = true;
+    var targets = [
+      { el: hero.querySelector('.hero-wrap > div:last-child'), f: 16 },
+      { el: hero.querySelector('.hero-mascote'), f: 30 },
+      { el: hero.children[0], f: 9 },
+      { el: hero.children[1], f: 16 },
+      { el: hero.children[2], f: 12 }
+    ].filter(function (t) { return t.el; });
+    var raf = null, mx = 0, my = 0;
+    function apply() {
+      raf = null;
+      targets.forEach(function (t) {
+        t.el.style.setProperty('--px', (mx * t.f).toFixed(1) + 'px');
+        t.el.style.setProperty('--py', (my * t.f).toFixed(1) + 'px');
+      });
+    }
+    hero.addEventListener('mousemove', function (e) {
+      var r = hero.getBoundingClientRect();
+      mx = (e.clientX - r.left) / r.width - 0.5;
+      my = (e.clientY - r.top) / r.height - 0.5;
+      if (!raf) raf = requestAnimationFrame(apply);
+    });
+    hero.addEventListener('mouseleave', function () {
+      mx = my = 0;
+      if (!raf) raf = requestAnimationFrame(apply);
+    });
+  }
+
+  /* ===== 3D tilt on cards ===== */
+  function bindTilt() {
+    if (reduceMotion || !finePointer) return;
+    document.querySelectorAll('.card-lift:not([data-tilt])').forEach(function (card) {
+      card.setAttribute('data-tilt', '1');
+      card.addEventListener('mousemove', function (e) {
+        var r = card.getBoundingClientRect();
+        var x = (e.clientX - r.left) / r.width - 0.5;
+        var y = (e.clientY - r.top) / r.height - 0.5;
+        card.style.transition = 'transform .1s ease, box-shadow .35s ease';
+        card.style.transform = 'perspective(700px) translateY(-6px) rotateX(' + (-y * 7).toFixed(2) + 'deg) rotateY(' + (x * 7).toFixed(2) + 'deg) scale(1.02)';
+      });
+      card.addEventListener('mouseleave', function () {
+        card.style.transition = '';
+        card.style.transform = '';
+      });
+    });
+  }
+
+  function onMutate() {
+    watchReveals();
+    splitTitle();
+    initHeroParallax();
+    bindTilt();
+  }
+  new MutationObserver(onMutate).observe(document.body, { childList: true, subtree: true });
+  onMutate();
 
   /* ===== Scroll progress bar + header shadow ===== */
   var progress = document.createElement('div');
   progress.className = 'scroll-progress';
   progress.setAttribute('aria-hidden', 'true');
   document.body.appendChild(progress);
+  var heroWrap = null, parceriaImg = null;
   function onScroll() {
     var max = docEl.scrollHeight - window.innerHeight;
     progress.style.width = (max > 0 ? (window.scrollY / max) * 100 : 0) + '%';
     docEl.classList.toggle('scrolled', window.scrollY > 12);
+    if (reduceMotion) return;
+    /* hero content drifts down and fades while scrolling away */
+    if (!heroWrap) heroWrap = document.querySelector('.hero-wrap');
+    if (heroWrap) {
+      var sy = window.scrollY;
+      if (sy <= window.innerHeight) {
+        heroWrap.style.transform = 'translateY(' + (sy * 0.18).toFixed(1) + 'px)';
+        heroWrap.style.opacity = Math.max(0, 1 - sy / (window.innerHeight * 0.85)).toFixed(3);
+      }
+    }
+    /* partnership photo scroll parallax */
+    if (!parceriaImg) parceriaImg = document.querySelector('img[alt="Parceria de confiança"]');
+    if (parceriaImg) {
+      var r = parceriaImg.getBoundingClientRect();
+      if (r.bottom > 0 && r.top < window.innerHeight) {
+        var off = (r.top + r.height / 2 - window.innerHeight / 2) * -0.08;
+        parceriaImg.style.transform = 'translateY(' + off.toFixed(1) + 'px)';
+      }
+    }
   }
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener('resize', onScroll, { passive: true });
