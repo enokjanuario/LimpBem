@@ -37,8 +37,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&amp;family=Instrument+Sans:wght@400;500;600;700&amp;display=swap">
   <style>
-    html { scroll-behavior: smooth; }
-    body { margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; color: #10251A; background: #ffffff; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    html { scroll-behavior: smooth; overflow-x: hidden; overflow-x: clip; }
+    body { margin: 0; font-family: 'Instrument Sans', system-ui, sans-serif; color: #10251A; background: #ffffff; -webkit-font-smoothing: antialiased; overflow-x: hidden; overflow-x: clip; }
     a { color: #0E7A3E; }
     a:hover { color: #0A3D24; }
     ::selection { background: #CBE9F5; }
@@ -109,6 +109,11 @@
     html.js-anim .reveal.reveal-left { transform: translateX(-72px) scale(.96); }
     html.js-anim .reveal.reveal-right { transform: translateX(72px) scale(.96); }
     html.js-anim .reveal.in-view.reveal-left, html.js-anim .reveal.in-view.reveal-right { transform: none; }
+    @media (max-width: 640px) {
+      html.js-anim .reveal.reveal-left { transform: translateX(-22px) scale(.97); }
+      html.js-anim .reveal.reveal-right { transform: translateX(22px) scale(.97); }
+      html.js-anim .reveal.in-view.reveal-left, html.js-anim .reveal.in-view.reveal-right { transform: none; }
+    }
     /* decorative circles drift */
     #inicio > div:nth-child(1) { animation: lb-float 9s ease-in-out infinite; }
     #inicio > div:nth-child(2) { animation: lb-float 7s ease-in-out 1s infinite; }
